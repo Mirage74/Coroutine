@@ -2,7 +2,6 @@ package com.balex.coroutine
 
 import android.os.Bundle
 import android.widget.Toast
-import androidx.activity.ComponentActivity
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import com.balex.coroutine.databinding.ActivityMainBinding
@@ -27,19 +26,23 @@ class MainActivity : AppCompatActivity() {
         binding.buttonLoad.isEnabled = false
         loadCity {
             binding.tvLocation.text = it
-            loadTemperature(it) {
-                binding.tvTemperature.text = it.toString()
-                binding.progress.isVisible = false
-                binding.buttonLoad.isEnabled = true
-            }
+//            loadTemperature(it) {
+//                binding.tvTemperature.text = it.toString()
+//                binding.progress.isVisible = false
+//                binding.buttonLoad.isEnabled = true
+//            }
         }
     }
 
     private fun loadCity(callback: (String) -> Unit) {
+        runOnUiThread(
         thread {
-            Thread.sleep(5000)
+            Thread.sleep(3000)
             callback.invoke("Moscow")
+//            binding.progress.isVisible = false
+//            binding.buttonLoad.isEnabled = true
         }
+        )
     }
 
     private fun loadTemperature(city: String, callback: (Int) -> Unit) {
