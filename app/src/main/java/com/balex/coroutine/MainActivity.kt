@@ -11,6 +11,7 @@ import kotlin.concurrent.thread
 class MainActivity : AppCompatActivity() {
     val TAG = "MainActivity"
 
+
     private val binding by lazy {
         ActivityMainBinding.inflate(layoutInflater)
     }
@@ -34,6 +35,7 @@ class MainActivity : AppCompatActivity() {
                 binding.tvTemperature.text = it.toString()
                 binding.progress.isVisible = false
                 binding.buttonLoad.isEnabled = true
+                Log.d(TAG, "5")
             }
             Log.d(TAG, "3")
         }
@@ -45,20 +47,31 @@ class MainActivity : AppCompatActivity() {
     private fun loadCity(callback: (String) -> Unit) {
         thread {
             Thread.sleep(3000)
-            callback.invoke("Bern")
+            //Handler(Looper.getMainLooper()).post {
+            runOnUiThread {
+                callback.invoke("Bern")
+            }
         }
 
     }
 
     private fun loadTemperature(city: String, callback: (Int) -> Unit) {
-        thread{
-            Toast.makeText(
-                this,
-                getString(R.string.loading_temperature_toast, city),
-                Toast.LENGTH_SHORT
-            ).show()
+        thread {
+            //Handler(Looper.getMainLooper()).post {
+            runOnUiThread {
+                Toast.makeText(
+                    this,
+                    getString(R.string.loading_temperature_toast, city),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+
             Thread.sleep(3000)
-            callback.invoke(17)
+            //Handler(Looper.getMainLooper()).post {
+            runOnUiThread {
+                callback.invoke(17)
+            }
+
         }
     }
 
